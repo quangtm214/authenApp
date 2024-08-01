@@ -2,16 +2,23 @@
 
 import React, { useEffect, useState } from "react";
 import { getPersonalData } from "@/service/authApi";
+import Forbidden from "@/components/Forbidden ";
 
 export default function Dashboard() {
   const [user, setUser] = useState({ fullName: "", username: "" });
   const [loading, setLoading] = useState(true);
+  const [forbidden, setForbidden] = useState(false);
 
   const getInformation = async () => {
-    const response = await getPersonalData();
-    console.log("response", response);
-    if (response.status === "success") {
-      setUser(response.data);
+    const token = localStorage.getItem("jwt");
+    if (!token) {
+      setForbidden(true);
+    } else {
+      const response = await getPersonalData();
+      console.log("response", response);
+      if (response.status === "success") {
+        setUser(response.data);
+      }
     }
     setLoading(false);
   };
@@ -20,6 +27,9 @@ export default function Dashboard() {
     getInformation();
   }, []);
 
+  if (forbidden) {
+    return <Forbidden />;
+  }
   return (
     <main className="flex items-center justify-center min-h-screen bg-gray-50">
       <div className="flex flex-col items-center justify-center p-8 bg-white shadow-lg rounded-xl w-full max-w-md">

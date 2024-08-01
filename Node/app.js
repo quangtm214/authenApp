@@ -6,7 +6,8 @@ var path = require("path");
 
 var logger = require("morgan");
 const mongoose = require("mongoose");
-const url = "mongodb://127.0.0.1:27017/authenProject";
+const url =
+  "mongodb+srv://quangtran214203:NEH9oCF9IlIEfIZx@cluster0.y8kgle3.mongodb.net/authenApp?retryWrites=true&w=majority&appName=Cluster0";
 const connect = mongoose.connect(url);
 connect.then((db) => {
   console.log("connect success");
